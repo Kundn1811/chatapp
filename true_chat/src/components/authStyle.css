@@ -1,0 +1,17 @@
+
+.users>div{
+    display: flex;
+    height: auto;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+.users>div>input{
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    font-size: 1.2rem;
+    padding: .2rem;
+    width: 60%;
+    border-radius: .5rem;
+    padding: .5rem;
+    margin: .5rem;
+}
