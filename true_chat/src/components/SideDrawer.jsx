@@ -1,15 +1,33 @@
-import { Box, Button, Drawer, DrawerBody, DrawerContent, DrawerHeader, DrawerOverlay, Input, Menu, MenuButton, MenuDivider, MenuItem, MenuList, Text, Tooltip, useDisclosure, useToast } from '@chakra-ui/react';
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom';
-import { ChatState } from '../Context/ChatProvider';
+import {
+  Box,
+  Button,
+  Drawer,
+  DrawerBody,
+  DrawerContent,
+  DrawerHeader,
+  DrawerOverlay,
+  Input,
+  Menu,
+  MenuButton,
+  MenuDivider,
+  MenuItem,
+  MenuList,
+  Text,
+  Tooltip,
+  useDisclosure,
+  useToast,
+} from "@chakra-ui/react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { ChatState } from "../Context/ChatProvider";
 import { BellIcon, ChevronDownIcon } from "@chakra-ui/icons";
-import axios from 'axios';
-import UserList from './UserList';
+import axios from "axios";
+import UserList from "./UserList";
 const SideDrawer = () => {
-     const [search, setSearch] = useState("");
-     const [searchResult, setSearchResult] = useState([]);
-     const [loading, setLoading] = useState(false);
-     const [loadingChat, setLoadingChat] = useState(false);
+  const [search, setSearch] = useState("");
+  const [searchResult, setSearchResult] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [loadingChat, setLoadingChat] = useState(false);
   const {
     setSelectedChat,
     user,
@@ -25,51 +43,81 @@ const SideDrawer = () => {
 
   const logoutHandler = () => {
     localStorage.removeItem("userInfo");
-   nevigate("/");
+    nevigate("/");
   };
 
   const handleSearch = async () => {
-     if (!search) {
-       toast({
-         title: "Please Enter something in search",
-         status: "warning",
-         duration: 3000,
-         isClosable: true,
-         position: "top-left",
-       });
-       return;
-     }
-     try {
-       setLoading(true);
+    if (!search) {
+      toast({
+        title: "Please Enter something in search",
+        status: "warning",
+        duration: 3000,
+        isClosable: true,
+        position: "top-left",
+      });
+      return;
+    }
+    try {
+      setLoading(true);
 
-       const config = {
-         headers: {
-           Authorization: `Bearer ${user.token}`,
-         },
-       };
+      const config = {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      };
 
-       const { data } = await axios.get(
-         `http://localhost:8080/user?search=${search}`,
-         config
-       );
-       console.log(data)
-       setLoading(false);
-       setSearchResult(data);
-     } catch (error) {
-       toast({
-         title: "Error Occured!",
-         description: "Failed to Load the Search Results",
-         status: "error",
-         duration: 3000,
-         isClosable: true,
-         position: "bottom-left",
-       });
-     }
+      const { data } = await axios.get(
+        `http://localhost:8080/user?search=${search}`,
+        config
+      );
+      //    if(!chats.find((c)=>c._id===data._id)){
+      //     setChats([data,...chats])
+      //    }
+      setLoading(false);
+      setSearchResult(data);
+    } catch (error) {
+      toast({
+        title: "Error Occured!",
+        description: "Failed to Load the Search Results",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+        position: "bottom-left",
+      });
+    }
   };
 
-  const accessChat =(userId)=>{
+  const accessChat = async (userId) => {
+    console.log(userId);
 
-  }
+    try {
+      setLoadingChat(true);
+      const config = {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      };
+      const { data } = await axios.post(
+        `http://localhost:8080/chat`,
+        { userId },
+        config
+      );
+   
+      if (!chats.find((c) => c._id === data._id)) setChats([data, ...chats]);
+      setSelectedChat(data);
+      setLoadingChat(false);
+      onClose();
+    } catch (error) {
+      toast({
+        title: "Error fetching the chat",
+        description: error.message,
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom-left",
+      });
+    }
+  };
 
   return (
     <>
@@ -113,7 +161,7 @@ const SideDrawer = () => {
         <DrawerContent>
           <DrawerHeader borderBottomWidth="1px">Search Users</DrawerHeader>
           <DrawerBody>
-            <Box  display={"flex"} pb={2}>
+            <Box display={"flex"} pb={2}>
               <Input
                 placeholder="Search by name or email"
                 mr={2}
@@ -122,17 +170,20 @@ const SideDrawer = () => {
               />
               <Button onClick={handleSearch}>Go</Button>
             </Box>
-            {loading?"":(searchResult?.map((user)=>(
-                    <UserList key={user._id}
+            {loading
+              ? ""
+              : searchResult?.map((user) => (
+                  <UserList
+                    key={user._id}
                     user={user}
-                    handleFunction ={()=>accessChat(user._id)}
-                    />
-        )))}
+                    handleFunction={() => accessChat(user._id)}
+                  />
+                ))}
           </DrawerBody>
         </DrawerContent>
       </Drawer>
     </>
   );
-}
+};
 
-export default SideDrawer
+export default SideDrawer;

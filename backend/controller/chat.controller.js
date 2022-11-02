@@ -6,7 +6,7 @@ const userModel = require("../model/user.model");
 
 const accessChat = asyncHandler(async (req, res) => {
   const { userId } = req.body;
-
+  console.log(req.body)
   if (!userId) {
     console.log("UserId param not sent with request");
     return res.sendStatus(400);
