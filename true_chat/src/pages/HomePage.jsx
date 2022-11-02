@@ -1,9 +1,19 @@
 import { Box, Container, Tab, TabList, TabPanel, TabPanels, Tabs, Text } from "@chakra-ui/react";
 import React from "react";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Login from "../components/Login";
 import Signup from "../components/Signup";
 
 const HomePage = () => {
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("userInfo"));
+    if (user) navigate("/chats");
+  }, [navigate]);
+
   return (
     <Container maxW="xl" centerContent>
       <Box
@@ -23,15 +33,15 @@ const HomePage = () => {
       <Box bg="white" w="100%" p={4} borderRadius="lg" borderWidth="1px">
         <Tabs isFitted variant="soft-rounded">
           <TabList mb="1em">
-            <Tab>SignUp</Tab>
             <Tab>Login</Tab>
+            <Tab>SignUp</Tab>
           </TabList>
           <TabPanels>
             <TabPanel>
-              <Signup />
+              <Login />
             </TabPanel>
             <TabPanel>
-              <Login />
+              <Signup />
             </TabPanel>
           </TabPanels>
         </Tabs>

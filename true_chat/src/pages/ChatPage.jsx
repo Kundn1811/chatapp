@@ -1,9 +1,29 @@
-import React from 'react'
-
+import { Box } from "@chakra-ui/react";
+import React, { useState } from "react";
+import ChatBox from "../components/ChatBox";
+import MyChats from "../components/MyChats";
+import SideDrawer from "../components/SideDrawer";
+import { ChatState } from "../Context/ChatProvider";
+import './pagesStyle.css'
 const ChatPage = () => {
+  const { user } = ChatState();
+   const [fetchAgain, setFetchAgain] = useState(false);
   return (
-    <div>ChatPage</div>
-  )
-}
+    <div className="chatContainer">
+      {user && <SideDrawer />}
 
-export default ChatPage
+      <Box
+        display={"flex"}
+        justifyContent="space-between"
+        padding={"1rem"}
+        h="91.5vh"
+        w="100%"
+      >
+        {user && <MyChats />}
+        {user && <ChatBox />}
+      </Box>
+    </div>
+  );
+};
+
+export default ChatPage;
