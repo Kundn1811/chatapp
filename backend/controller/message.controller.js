@@ -3,8 +3,10 @@ const Message = require("../model/message.model");
 const User = require("../model/user.model");
 const Chat = require("../model/chat.model");
 
-/* 
-
+/* ___________  get message from chatId_________________
+method           GET
+//api-endpoint  /message
+//route         Protected
 
  */
 
@@ -20,9 +22,10 @@ const allMessages = asyncHandler(async (req, res) => {
   }
 });
 
-//@description     Create New Message
-//@route           POST /Message/
-//@access          Protected
+//___________________Create New Message_________________________
+//method           POST 
+//api-endpoint  /message
+//route         Protected
 const sendMessage = asyncHandler(async (req, res) => {
   const { content, chatId } = req.body;
 
