@@ -3,6 +3,7 @@ const connection = require("./config/config");
 const userRoutes = require("./routes/userRoutes");
 const chatRoutes = require("./routes/chatRoutes");
 const messageRoute = require("./routes/messageRoutes");
+const path = require("path"); 
 require("dotenv").config();
 
 const cors = require("cors");
@@ -12,7 +13,18 @@ app.use(cors()); // to block the cors error
 app.use(express.json()); // to accept the json data
 
 app.get("/", (req, res) => {
-  res.send("initial api");
+ let options = {
+   root: path.join(__dirname),
+ };
+
+ let fileName = "api.txt";
+ res.sendFile(fileName, options, function (err) {
+   if (err) {
+     next(err);
+   } else {
+     console.log("Sent:", fileName);
+   }
+ });
 });
 
 app.use('/user',userRoutes)
@@ -31,3 +43,6 @@ app.listen(PORT, async () => {
     console.log("Connection not established");
   }
 });
+
+
+// baseUrl :-  https://peaceful-sierra-38069.herokuapp.com

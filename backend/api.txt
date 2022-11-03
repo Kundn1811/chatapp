@@ -1,0 +1,52 @@
+BaseUrl :-  https://peaceful-sierra-38069.herokuapp.com
+
+
+
+ ----------------  User  ----------
+
+ ___________SignUp___________
+ Description :- signup;
+ Method :- POST
+ endPoint :- /user/signup
+
+____________LogIn__________
+ Description :- login;
+ Method :- POST
+ endPoint :- /user/login
+
+____________Get All Users___________
+Description :- Get all users/as per query except logged one, 
+Method :- GET
+endPoint :- /user or /user?search
+
+
+----------------- Chats ---------------------
+
+
+______________Established connection___________________
+ Description :- Established connection between two users;
+ Method :- POST
+ Body :- userId
+ endPoint :- /chat
+
+______________Fetch Chats_____________
+     Method:- GET,
+     protected and 
+     api-endpoint :- /chat
+
+
+
+---------------------- Message ----------------------
+
+
+ ___________  get message from chatId_________________
+Method   GET
+endpoint  /message/:chatId
+route    Protected
+
+___________________Create New Message_________________________
+Method :-  POST 
+Body :- {content,chatId}
+endpoint :-  /message
+
+

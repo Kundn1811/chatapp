@@ -53,7 +53,7 @@ const accessChat = asyncHandler(async (req, res) => {
 });
 
 
-/*  ________Connection between two users______________ 
+/*  ________get users chats______________ 
      Method:- GET,
      protected and 
      api-endpoint :- /chat
