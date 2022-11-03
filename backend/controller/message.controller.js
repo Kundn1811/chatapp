@@ -3,6 +3,10 @@ const Message = require("../model/message.model");
 const User = require("../model/user.model");
 const Chat = require("../model/chat.model");
 
+/* 
+
+
+ */
 
 const allMessages = asyncHandler(async (req, res) => {
   try {
@@ -16,11 +20,14 @@ const allMessages = asyncHandler(async (req, res) => {
   }
 });
 
+//@description     Create New Message
+//@route           POST /Message/
+//@access          Protected
 const sendMessage = asyncHandler(async (req, res) => {
   const { content, chatId } = req.body;
 
   if (!content || !chatId) {
-    console.log("Invalid data passed into request");
+    console.log("Invalid data passed");
     return res.sendStatus(400);
   }
 
@@ -33,7 +40,7 @@ const sendMessage = asyncHandler(async (req, res) => {
   try {
     var message = await Message.create(newMessage);
 
-    message = await message.populate("sender", "name image");
+    message = await message.populate("sender", "name pic");
     message = await message.populate("chat");
     message = await User.populate(message, {
       path: "chat.users",

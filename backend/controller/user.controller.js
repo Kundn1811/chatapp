@@ -4,8 +4,9 @@ const userModel = require("../model/user.model");
 const bcrypt = require("bcryptjs");
 
 /*____________________________Registration_____________________
-   method - Post
-   api - user/signup
+  method :- POST
+   body : email,password,name
+   api-endpoint :- user/signup
 */
 
 const registration = asyncHandler(async (req, res) => {
@@ -46,6 +47,13 @@ const registration = asyncHandler(async (req, res) => {
   });
 });
 
+/* ______________________ Login _______________________
+   method :- POST
+   body : email,password
+   api-endpoint :- user/login
+   
+*/
+
 const login = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
@@ -74,6 +82,12 @@ const login = asyncHandler(async (req, res) => {
   });
 });
 
+
+/*____________________getting users__________________________________
+  method : GET,
+  query : name or email , accepts regex
+  api-endpoint :- /user
+*/
 const allUser = asyncHandler(async(req,res)=>{
  const keyword = req.query.search? {
     $or:[{name:{$regex:req.query.search,$options:'i'}},{email:{$regex:req.query.search,$options:'i'}},]

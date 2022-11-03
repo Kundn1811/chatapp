@@ -2,11 +2,15 @@ const asyncHandler = require("express-async-handler");
 const chatModel = require("../model/chat.model");
 const userModel = require("../model/user.model");
 
-
+/*  ________Connection between two users______________ 
+     Method:- POST,
+     body: userId with whome connection is going to enstablished
+     api-endpoint :- /chat
+ */
 
 const accessChat = asyncHandler(async (req, res) => {
   const { userId } = req.body;
-  console.log(req.body)
+  // console.log(req.body)
   if (!userId) {
     console.log("UserId param not sent with request");
     return res.sendStatus(400);
@@ -15,11 +19,11 @@ const accessChat = asyncHandler(async (req, res) => {
   var isChat = await chatModel
     .find({
       $and: [
-        { communicators: { $elemMatch: { $eq: req.user._id } } },
-        { communicators: { $elemMatch: { $eq: userId } } },
+        { users: { $elemMatch: { $eq: req.user._id } } },
+        { users: { $elemMatch: { $eq: userId } } },
       ],
     })
-    .populate("communicators", "-password")
+    .populate("users", "-password")
     .populate("recentMessage");
 
   isChat = await userModel.populate(isChat, {
@@ -32,14 +36,14 @@ const accessChat = asyncHandler(async (req, res) => {
   } else {
     var chatData = {
       chat: "sender",
-      communicators: [req.user._id, userId],
+      users: [req.user._id, userId],
     };
 
     try {
       const createdChat = await chatModel.create(chatData);
       const FullChat = await chatModel
         .findOne({ _id: createdChat._id })
-        .populate("communicators", "-password");
+        .populate("users", "-password");
       res.status(200).json(FullChat);
     } catch (error) {
       res.status(400);
@@ -48,11 +52,18 @@ const accessChat = asyncHandler(async (req, res) => {
   }
 });
 
+
+/*  ________Connection between two users______________ 
+     Method:- GET,
+     protected and 
+     api-endpoint :- /chat
+ */
+
 const fetchChats = asyncHandler(async (req, res) => {
   try {
     chatModel
-      .find({ communicators: { $elemMatch: { $eq: req.user._id } } })
-      .populate("communicators", "-password")
+      .find({ users: { $elemMatch: { $eq: req.user._id } } })
+      .populate("users", "-password")
       .populate("recentMessage")
       .sort({ updatedAt: -1 })
       .then(async (results) => {

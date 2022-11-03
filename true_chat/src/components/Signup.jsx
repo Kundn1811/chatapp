@@ -33,7 +33,7 @@ const Signup = () => {
         },
       };
       const { data } = await axios.post(
-        "http://localhost:8080/user/signup",
+        "https://peaceful-sierra-38069.herokuapp.com/user/signup",
         {
           ...regData,
         }

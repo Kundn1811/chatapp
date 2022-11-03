@@ -67,7 +67,7 @@ const SideDrawer = () => {
       };
 
       const { data } = await axios.get(
-        `http://localhost:8080/user?search=${search}`,
+        `https://peaceful-sierra-38069.herokuapp.com/user?search=${search}`,
         config
       );
       //    if(!chats.find((c)=>c._id===data._id)){
@@ -98,7 +98,7 @@ const SideDrawer = () => {
         },
       };
       const { data } = await axios.post(
-        `http://localhost:8080/chat`,
+        `https://peaceful-sierra-38069.herokuapp.com/chat`,
         { userId },
         config
       );

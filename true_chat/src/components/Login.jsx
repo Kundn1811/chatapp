@@ -29,9 +29,12 @@ const Login = () => {
             "Content-type": "application/json",
           },
         };
-        const { data } = await axios.post("http://localhost:8080/user/login", {
-          ...logData,
-        });
+        const { data } = await axios.post(
+          "https://peaceful-sierra-38069.herokuapp.com/user/login",
+          {
+            ...logData,
+          }
+        );
         console.log(data);
         toast({
           title: "Registration Successful",
