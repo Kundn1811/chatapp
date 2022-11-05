@@ -1,15 +1,18 @@
-import { Box, Stack, Text, useToast } from "@chakra-ui/react";
+import { AddIcon } from "@chakra-ui/icons";
+import { Box, Button, Stack, Text, useToast } from "@chakra-ui/react";
 import axios from "axios";
 import React, { useState } from "react";
 import { useEffect } from "react";
+import { getSender } from "../config/chatLogic";
 import { ChatState } from "../Context/ChatProvider";
+import GroupChatModel from "./tools/GroupChatModel";
 
 const MyChats = () => {
   const [loggedUser, setLoggedUser] = useState();
 
   const { selectedChat, setSelectedChat, user, chats, setChats } = ChatState();
   const toast = useToast();
-
+  // console.log(selectedChat);
   const fetchChats = async () => {
     // console.log(user._id);
     try {
@@ -19,10 +22,8 @@ const MyChats = () => {
         },
       };
 
-      const { data } = await axios.get(
-        "https://peaceful-sierra-38069.herokuapp.com/chat",
-        config
-      );
+      const { data } = await axios.get("http://localhost:8080/chat", config);
+      
       setChats(data);
      
     } catch (error) {
@@ -36,15 +37,15 @@ const MyChats = () => {
       });
     }
   };
-
+  
+  
   useEffect(() => {
     setLoggedUser(JSON.parse(localStorage.getItem("userInfo")));
     fetchChats();
-     console.log("chats",chats);
   }, []);
   return (
     <Box
-      d={{ base: selectedChat ? "none" : "flex", md: "flex" }}
+      display={{ base: selectedChat ? "none" : "flex", md: "flex" }}
       flexDir="column"
       alignItems="center"
       p={3}
@@ -54,19 +55,28 @@ const MyChats = () => {
       borderWidth="1px"
     >
       <Box
-        pb={3}
+        padding={3}
         px={3}
         fontSize={{ base: "28px", md: "30px" }}
         fontFamily="Work sans"
-        d="flex"
+        display="flex"
         w="100%"
         justifyContent="space-between"
         alignItems="center"
       >
         My Chats
+        <GroupChatModel>
+          <Button
+            display={"flex"}
+            fontSize={{ base: "17px", md: "10px", lg: "1rem" }}
+            rightIcon={<AddIcon />}
+          >
+            Create Group
+          </Button>
+        </GroupChatModel>
       </Box>
       <Box
-        display={"fles"}
+        display={"flex"}
         flexDirection="column"
         p={3}
         bg="#F8F8F8"
@@ -78,7 +88,6 @@ const MyChats = () => {
         {chats ? (
           <Stack overflowY="scroll">
             {chats.map((chat) => (
-                
               <Box
                 onClick={() => setSelectedChat(chat)}
                 cursor="pointer"
@@ -89,14 +98,11 @@ const MyChats = () => {
                 borderRadius="lg"
                 key={chat._id}
               >
-                {chat.recentMessage && (
-                  <Text fontSize="xs">
-                    <b>{chat.recentMessage.sender.name} : </b>
-                    {chat.recentMessage.content.length > 50
-                      ? chat.recentMessage.content.substring(0, 51) + "..."
-                      : chat.recentMessage.content}
-                  </Text>
-                )}
+                <Text>
+                  {!chat.isGroupChat
+                    ? getSender(loggedUser, chat.users)
+                    : chat.chatName}
+                </Text>
               </Box>
             ))}
           </Stack>

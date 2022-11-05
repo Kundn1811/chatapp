@@ -24,20 +24,13 @@ const Login = () => {
       e.preventDefault();
 
       try {
-        const config = {
-          headers: {
-            "Content-type": "application/json",
-          },
-        };
-        const { data } = await axios.post(
-          "https://peaceful-sierra-38069.herokuapp.com/user/login",
-          {
-            ...logData,
-          }
-        );
+       
+        const { data } = await axios.post("http://localhost:8080/user/login", {
+          ...logData,
+        });
         console.log(data);
         toast({
-          title: "Registration Successful",
+          title: "Login Successful",
           status: "success",
           duration: 3000,
           isClosable: true,

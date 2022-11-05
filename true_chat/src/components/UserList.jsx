@@ -1,5 +1,5 @@
-import { Box, Text } from '@chakra-ui/react';
-import { Avatar } from "@chakra-ui/avatar";
+import { Avatar, Box, Text } from '@chakra-ui/react';
+
 import React from 'react'
 
 const UserList = ({user,handleFunction}) => {

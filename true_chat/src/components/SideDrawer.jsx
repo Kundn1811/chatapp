@@ -1,4 +1,5 @@
 import {
+  Avatar,
   Box,
   Button,
   Drawer,
@@ -20,15 +21,17 @@ import {
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ChatState } from "../Context/ChatProvider";
-import { BellIcon, ChevronDownIcon } from "@chakra-ui/icons";
+import { BellIcon, ChevronDownIcon, Search2Icon } from "@chakra-ui/icons";
 import axios from "axios";
 import UserList from "./UserList";
+import ProfileModal from "./tools/ProfileModal";
 const SideDrawer = () => {
   const [search, setSearch] = useState("");
   const [searchResult, setSearchResult] = useState([]);
   const [loading, setLoading] = useState(false);
   const [loadingChat, setLoadingChat] = useState(false);
   const {
+    selectedChat,
     setSelectedChat,
     user,
     notification,
@@ -67,7 +70,7 @@ const SideDrawer = () => {
       };
 
       const { data } = await axios.get(
-        `https://peaceful-sierra-38069.herokuapp.com/user?search=${search}`,
+        `http://localhost:8080/user?search=${search}`,
         config
       );
       //    if(!chats.find((c)=>c._id===data._id)){
@@ -88,7 +91,7 @@ const SideDrawer = () => {
   };
 
   const accessChat = async (userId) => {
-    console.log(userId);
+    // console.log(userId);
 
     try {
       setLoadingChat(true);
@@ -98,11 +101,10 @@ const SideDrawer = () => {
         },
       };
       const { data } = await axios.post(
-        `https://peaceful-sierra-38069.herokuapp.com/chat`,
+        `http://localhost:8080/chat`,
         { userId },
         config
       );
-   
       if (!chats.find((c) => c._id === data._id)) setChats([data, ...chats]);
       setSelectedChat(data);
       setLoadingChat(false);
@@ -133,7 +135,8 @@ const SideDrawer = () => {
         <Tooltip label="Search Users to chat" hasArrow placement="bottom-end">
           <Button variant="ghost" onClick={onOpen}>
             <i className="fas fa-search"></i>
-            <Text d={{ base: "none", md: "flex" }} px={4}>
+            <Search2Icon />
+            <Text display={{ base: "none", md: "flex" }} px={4}>
               Search User
             </Text>
           </Button>
@@ -146,17 +149,23 @@ const SideDrawer = () => {
             <MenuButton p={1}>
               <BellIcon fontSize="2xl" m={1} />
             </MenuButton>
-            <Button onClick={logoutHandler}>Logout</Button>
             {/* <MenuList></MenuList> */}
+          </Menu>
+          <Menu>
+            <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+              <Avatar size="sm" cursor="pointer" name={user.name} />
+            </MenuButton>
+            <MenuList>
+              <ProfileModal user={user}>
+                <MenuItem>My Profile</MenuItem>
+              </ProfileModal>
+              <MenuDivider />
+              <Button colorScheme={"green"} onClick={logoutHandler}>Logout</Button>
+            </MenuList>
           </Menu>
         </div>
       </Box>
       <Drawer placement="left" onClose={onClose} isOpen={isOpen}>
-        {/* <DrawerOverlay />
-        <DrawerContent>
-          <DrawerHeader>Search Users</DrawerHeader>
-        </DrawerContent>
-        <DrawerBody></DrawerBody> */}
         <DrawerOverlay />
         <DrawerContent>
           <DrawerHeader borderBottomWidth="1px">Search Users</DrawerHeader>
