@@ -27,11 +27,7 @@ const Signup = () => {
     e.preventDefault();
 
     try {
-      const config = {
-        headers: {
-          "Content-type": "application/json",
-        },
-      };
+     
       const { data } = await axios.post("http://localhost:8080/user/signup", {
         ...regData,
       });

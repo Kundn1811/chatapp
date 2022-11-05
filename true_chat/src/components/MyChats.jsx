@@ -7,7 +7,7 @@ import { getSender } from "../config/chatLogic";
 import { ChatState } from "../Context/ChatProvider";
 import GroupChatModel from "./tools/GroupChatModel";
 
-const MyChats = () => {
+const MyChats = ({ fetchAgain }) => {
   const [loggedUser, setLoggedUser] = useState();
 
   const { selectedChat, setSelectedChat, user, chats, setChats } = ChatState();
@@ -23,9 +23,8 @@ const MyChats = () => {
       };
 
       const { data } = await axios.get("http://localhost:8080/chat", config);
-      
+
       setChats(data);
-     
     } catch (error) {
       toast({
         title: "Error Occured!",
@@ -37,12 +36,11 @@ const MyChats = () => {
       });
     }
   };
-  
-  
+
   useEffect(() => {
     setLoggedUser(JSON.parse(localStorage.getItem("userInfo")));
     fetchChats();
-  }, []);
+  }, [fetchAgain]);
   return (
     <Box
       display={{ base: selectedChat ? "none" : "flex", md: "flex" }}
