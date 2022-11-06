@@ -115,7 +115,7 @@ const UpdateGroup = ({ fetchAgain, setFetchAgain ,fetchMessages }) => {
         },
       };
       const { data } = await axios.put(
-        `http://localhost:8080/chat/groupadd`,
+        `https://peaceful-sierra-38069.herokuapp.com/chat/groupadd`,
         {
           chatId: selectedChat._id,
           userId: user1._id,
@@ -160,7 +160,7 @@ const UpdateGroup = ({ fetchAgain, setFetchAgain ,fetchMessages }) => {
         },
       };
       const { data } = await axios.put(
-        `http://localhost:8080/chat/groupremove`,
+        `https://peaceful-sierra-38069.herokuapp.com/chat/groupremove`,
         {
           chatId: selectedChat._id,
           userId: user1._id,

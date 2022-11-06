@@ -25,10 +25,13 @@ const Login = () => {
 
       try {
        
-        const { data } = await axios.post("http://localhost:8080/user/login", {
-          ...logData,
-        });
-        console.log(data);
+        const { data } = await axios.post(
+          "https://peaceful-sierra-38069.herokuapp.com/user/login",
+          {
+            ...logData,
+          }
+        );
+        // console.log(data);
         toast({
           title: "Login Successful",
           status: "success",

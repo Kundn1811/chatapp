@@ -152,21 +152,23 @@ endpoint:- /groupadd
 
 const addToGroup = asyncHandler(async (req, res) => {
   const { chatId, userId } = req.body;
-  const added = await chatModel.findByIdAndUpdate(chatId, {
-    $push: { users: userId },
+  const added = await chatModel
+    .findByIdAndUpdate(
+      chatId,
+      {
+        $push: { users: userId },
+      },
+      { new: true }
+    )
+    .populate("users", "-password")
+    .populate("groupAdmin", "-password");
 
-  },{new:true})
-  .populate("users","-password")
-  .populate("groupAdmin","-password");
-   
-  if(!added){
+  if (!added) {
     res.status(404);
     throw new Error("Chat Not Found");
-
-  }else {
+  } else {
     res.json(added);
   }
-
 });
 
 const removeFromGroup = asyncHandler(async (req, res) => {

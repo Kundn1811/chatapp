@@ -82,22 +82,26 @@ const login = asyncHandler(async (req, res) => {
   });
 });
 
-
 /*____________________getting users__________________________________
   method : GET,
   query : name or email , accepts regex
   api-endpoint :- /user?search=""
 */
-const allUser = asyncHandler(async(req,res)=>{
+const allUser = asyncHandler(async (req, res) => {
+  const keyword = req.query.search
+    ? {
+        $or: [
+          { name: { $regex: req.query.search, $options: "i" } },
+          { email: { $regex: req.query.search, $options: "i" } },
+        ],
+      }
+    : {};
 
- const keyword = req.query.search? {
-    $or:[{name:{$regex:req.query.search,$options:'i'}},{email:{$regex:req.query.search,$options:'i'}},]
- }:{};
- 
- const users =   await userModel.find(keyword).find({ _id: { $ne: req.user._id } });
+  const users = await userModel
+    .find(keyword)
+    .find({ _id: { $ne: req.user._id } });
 
- res.send(users)
+  res.send(users);
+});
 
-})
-
-module.exports = { registration, login,allUser };
+module.exports = { registration, login, allUser };

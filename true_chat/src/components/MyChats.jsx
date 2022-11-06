@@ -22,7 +22,10 @@ const MyChats = ({ fetchAgain }) => {
         },
       };
 
-      const { data } = await axios.get("http://localhost:8080/chat", config);
+      const { data } = await axios.get(
+        "https://peaceful-sierra-38069.herokuapp.com/chat",
+        config
+      );
 
       setChats(data);
     } catch (error) {

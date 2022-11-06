@@ -23,7 +23,7 @@ const allMessages = asyncHandler(async (req, res) => {
 });
 
 //___________________Create New Message_________________________
-//method           POST 
+//method           POST
 //api-endpoint  /message
 //route         Protected
 const sendMessage = asyncHandler(async (req, res) => {

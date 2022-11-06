@@ -61,7 +61,10 @@ const GroupChatModel = ({ children }) => {
             Authorization: `Bearer ${user.token}`,
           },
         };
-        const { data } = await axios.get(`http://localhost:8080/user?search=${search}`, config);
+        const { data } = await axios.get(
+          `https://peaceful-sierra-38069.herokuapp.com/user?search=${search}`,
+          config
+        );
         console.log(data);
         setLoading(false);
         setSearchResult(data);
@@ -95,7 +98,7 @@ const GroupChatModel = ({ children }) => {
         },
       };
       const { data } = await axios.post(
-        `http://localhost:8080/chat/group`,
+        `https://peaceful-sierra-38069.herokuapp.com/chat/group`,
         {
           name: groupChatName,
           users: JSON.stringify(selectedUsers.map((u) => u._id)),
