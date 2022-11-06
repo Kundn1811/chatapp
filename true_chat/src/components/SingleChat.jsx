@@ -18,7 +18,7 @@ import UpdateGroup from "./tools/UpdateGroup";
 import "./authStyle.css"
 import ScrollableChat from "./ScrollableChat";
 import io from "socket.io-client"
-const ENDPOINT = "http://localhost:8080"
+const ENDPOINT = "https://peaceful-sierra-38069.herokuapp.com";
 var socket,selectedChatCompare;
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
@@ -101,7 +101,7 @@ toast({
 useEffect(() => {
   socket = io(ENDPOINT);
   socket.emit("setup", user);
-  socket.on("connection", () => setSocketConnected(true));
+  socket.on("connected", () => setSocketConnected(true));
 }, []);
 
   const typingHandler = (e) => {
