@@ -6,9 +6,6 @@ import { ChatState } from "../Context/ChatProvider";
 const ScrollableChat = ({ messages }) => {
   const { user } = ChatState();
   
-  useEffect(()=>{
-
-  },[messages])
   return (
     <>
       {messages &&

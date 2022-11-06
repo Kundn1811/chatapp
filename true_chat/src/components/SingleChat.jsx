@@ -31,6 +31,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
  const [socketConnected,setSocketConnected] = useState(false)
   const toast = useToast()
 
+  // Getting message
     const fetchMessages = async () => {
       if (!selectedChat) return;
 
@@ -44,7 +45,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         setLoading(true);
 
         const { data } = await axios.get(
-          `http://localhost:8080/message/${selectedChat._id}`,
+          `https://peaceful-sierra-38069.herokuapp.com/message/${selectedChat._id}`,
           config
         );
       
@@ -64,6 +65,8 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
       }
     };
   // console.log("message",messages);
+
+  // Message posting function
   const sendMessage = async (event) => {
     if (event.key === "Enter" && newMessage) {
       try {

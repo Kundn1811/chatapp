@@ -30,7 +30,7 @@ const UpdateGroup = ({ fetchAgain, setFetchAgain ,fetchMessages }) => {
         },
       };
       const { data } = await axios.get(
-        `http://localhost:8080/user?search=${search}`,
+        `https://peaceful-sierra-38069.herokuapp.com/user?search=${search}`,
         config
       );
       console.log(data);
@@ -60,7 +60,7 @@ const UpdateGroup = ({ fetchAgain, setFetchAgain ,fetchMessages }) => {
          },
        };
        const { data } = await axios.put(
-         `http://localhost:8080/chat/rename`,
+         `https://peaceful-sierra-38069.herokuapp.com/chat/rename`,
          {
            chatId: selectedChat._id,
            chatName: groupChatName,
