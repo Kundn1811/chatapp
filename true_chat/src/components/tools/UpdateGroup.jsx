@@ -6,7 +6,7 @@ import { ChatState } from "../../Context/ChatProvider";
 import UserList from "../UserList";
 import UserBadgeItem from "./UserBadgeItem";
 
-const UpdateGroup = ({ fetchAgain, setFetchAgain }) => {
+const UpdateGroup = ({ fetchAgain, setFetchAgain ,fetchMessages }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [groupChatName, setGroupChatName] = useState("");
   const [search, setSearch] = useState("");
@@ -170,7 +170,7 @@ const UpdateGroup = ({ fetchAgain, setFetchAgain }) => {
 
       user1._id === user._id ? setSelectedChat() : setSelectedChat(data);
       setFetchAgain(!fetchAgain);
-    //   fetchMessages();
+      fetchMessages();
       setLoading(false);
     } catch (error) {
       toast({

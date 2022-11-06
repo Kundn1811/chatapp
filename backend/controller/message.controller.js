@@ -5,7 +5,7 @@ const Chat = require("../model/chat.model");
 
 /* ___________  get message from chatId_________________
 method           GET
-//api-endpoint  /message
+//api-endpoint  /message/chatId
 //route         Protected
 
  */
